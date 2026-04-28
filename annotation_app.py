@@ -31,7 +31,7 @@ def save_annotation(word1, word2, score, annotator, annotations_file_path):
     file_exists = os.path.isfile(annotations_file_path)
     new_row.to_csv(annotations_file_path, mode='a', index=False, header=not file_exists)
 
-st.title("Word Similarity Annotation")
+st.title("Anotació de similitud entre paraules")
 
 st.markdown("""
 L'objectiu d'aquest experiment és assignar puntuacions de similitud a diversos parells de paraules per tal d'avaluar la qualitat dels models d'embeddings en català. A continuació, trobareu una llista de parells de paraules i, per a cada parell, caldrà que assigneu una puntuació numèrica de semblança en una escala de 0 a 10. 
