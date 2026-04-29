@@ -48,4 +48,50 @@ En aquesta escala, el 0 indica que les paraules no estan gens relacionades, ment
 
 Haureu d'escollir un dels tres datasets que se us proposa, i assignar les puntuacions a 100 parells de paraules. És molt important que treballeu de forma individual. No consulteu les puntuacions amb altres persones, ja que les respostes han de ser independents.
 
-Si no coneixeu alguna de les paraules, podeu buscar-la, però si teniu qualsevol pregunta o necessiteu algun aclariment addicional, no dubteu a posar-vos
+Si no coneixeu alguna de les paraules, podeu buscar-la, però si teniu qualsevol pregunta o necessiteu algun aclariment addicional, no dubteu a posar-vos en contacte amb nosaltres.
+
+Moltes gràcies per la vostra col·laboració!
+""")
+
+selected_dataset_name = st.selectbox("Selecciona el dataset", list(DATASETS.keys()))
+current_pairs_file = DATASETS[selected_dataset_name]
+sheet_name = selected_dataset_name.replace(" ", "_").lower()
+
+annotator = st.text_input("El teu nom:", key="annotator")
+if not annotator:
+    st.warning("Si us plau, introdueix el teu nom per començar")
+    st.stop()
+
+pairs = load_pairs(current_pairs_file)
+
+try:
+    sheet = get_sheet(sheet_name)
+    annotations = load_annotations(sheet)
+except Exception as e:
+    st.error(f"Error connectant amb Google Sheets: {e}")
+    st.stop()
+
+done = set(
+    zip(annotations[annotations.annotator == annotator].word1,
+        annotations[annotations.annotator == annotator].word2)
+)
+remaining = pairs[~pairs.apply(
+    lambda r: (r.word1, r.word2) in done, axis=1
+)]
+
+st.write(f"Progrés: {len(pairs) - len(remaining)} / {len(pairs)}")
+
+if len(remaining) == 0:
+    st.success("Ja has acabat! Moltes gràcies!")
+    st.stop()
+
+current = remaining.iloc[0]
+st.markdown(f"## `{current.word1}`  <->  `{current.word2}`")
+st.write("Quina similitud tenen aquestes dues paraules?")
+
+score = st.slider("0 = sense relació, 10 = la mateixa paraula", 0.0, 10.0, 5.0, 0.5)
+
+if st.button("Enviar i continuar"):
+    save_annotation(current.word1, current.word2, score, annotator, sheet)
+    st.cache_data.clear()
+    st.rerun()
