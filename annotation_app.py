@@ -40,7 +40,7 @@ En aquesta escala, el 0 indica que les paraules no estan gens relacionades, ment
 
 Haureu d'escollir un dels tres datasets que se us proposa, i assignar les puntuacions a 100 parells de paraules. És molt important que treballeu de forma individual. No consulteu les puntuacions amb altres persones, ja que les respostes han de ser independents.
 
-Si teniu qualsevol pregunta o necessiteu algun aclariment addicional, no dubteu a posar-vos en contacte amb nosaltres. 
+Si no coneixeu alguna de les paraules, podeu buscar-la, però si teniu qualsevol pregunta o necessiteu algun aclariment addicional, no dubteu a posar-vos en contacte amb nosaltres. 
 
 Moltes gràcies per la vostra col·laboració! 
 """)
