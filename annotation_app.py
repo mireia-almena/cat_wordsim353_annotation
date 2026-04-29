@@ -63,6 +63,9 @@ if not annotator:
     st.stop()
 
 pairs = load_pairs(current_pairs_file)
+# add these two lines:
+st.write(f"Total rows loaded: {len(pairs)}")
+st.write(pairs.tail(10))
 
 try:
     sheet = get_sheet(sheet_name)
